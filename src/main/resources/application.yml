@@ -1,0 +1,27 @@
+logging:
+  level:
+    root: WARN
+    org:
+      springframework:
+        security: DEBUG
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  output:
+    ansi:
+      enabled: always
+  profiles:
+    default: development
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem
+
+springdoc:
+  swagger-ui:
+    path: /swagger.html
+
+sentry:
+  dsn: https://40a137a8883e71c32b2c1b4dd232cd26@o4506263326556160.ingest.sentry.io/4506264320278528
+  sentry.traces-sample-rate: 1.0
