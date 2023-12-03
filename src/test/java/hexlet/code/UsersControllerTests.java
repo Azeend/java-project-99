@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.UserUpdateDto;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
-import hexlet.code.repository.UsersRepository;
+import hexlet.code.repository.UserRepository;
 import hexlet.code.util.ModelsGenerator;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ public class UsersControllerTests {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private UsersRepository usersRepository;
+    private UserRepository userRepository;
     @Autowired
     private ModelsGenerator modelsGenerator;
     private User testUser;
@@ -51,7 +51,7 @@ public class UsersControllerTests {
 
     @Test
     public void testIndex() throws Exception {
-        usersRepository.save(testUser);
+        userRepository.save(testUser);
 
         var result = mockMvc.perform(get("/api/users").with(token))
                 .andExpect(status().isOk())
@@ -62,7 +62,7 @@ public class UsersControllerTests {
 
     @Test
     public void testShow() throws Exception {
-        usersRepository.save(testUser);
+        userRepository.save(testUser);
 
         var request = get("/api/users/" + testUser.getId()).with(token);
 
@@ -86,7 +86,7 @@ public class UsersControllerTests {
 
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
-        var user = usersRepository.findByEmail(testUser.getEmail()).orElse(null);
+        var user = userRepository.findByEmail(testUser.getEmail()).orElse(null);
         assertNotNull(user);
         assertThat(user.getFirstName()).isEqualTo(testUser.getFirstName());
         assertThat(user.getEmail()).isEqualTo(testUser.getEmail());
@@ -94,7 +94,7 @@ public class UsersControllerTests {
 
     @Test
     public void testUpdate() throws Exception {
-        usersRepository.save(testUser);
+        userRepository.save(testUser);
 
         var updateDto = new UserUpdateDto();
         updateDto.setFirstName(JsonNullable.of("Fake name"));
@@ -108,7 +108,7 @@ public class UsersControllerTests {
         mockMvc.perform(request)
                 .andExpect(status().isOk());
 
-        var user = usersRepository.findById(testUser.getId()).get();
+        var user = userRepository.findById(testUser.getId()).get();
 
         assertNotNull(user);
         assertThat(user.getFirstName()).isEqualTo(updateDto.getFirstName().get());
@@ -116,19 +116,19 @@ public class UsersControllerTests {
     }
     @Test
     public void testDelete() throws Exception {
-        usersRepository.save(testUser);
+        userRepository.save(testUser);
 
         var request = delete("/api/users/" + testUser.getId()).with(token);
 
         mockMvc.perform(request)
                 .andExpect(status().isNoContent());
 
-        assertThat(usersRepository.existsById(testUser.getId())).isEqualTo(false);
+        assertThat(userRepository.existsById(testUser.getId())).isEqualTo(false);
     }
 
     @Test
     public void testIndexWithoutAuth() throws Exception {
-        usersRepository.save(testUser);
+        userRepository.save(testUser);
         var result = mockMvc.perform(get("/users"))
                 .andExpect(status().isUnauthorized());
 
@@ -136,7 +136,7 @@ public class UsersControllerTests {
 
     @Test
     public void testShowWithoutAuth() throws Exception {
-        usersRepository.save(testUser);
+        userRepository.save(testUser);
 
         var request = get("/users/{id}", testUser.getId());
         var result = mockMvc.perform(request)

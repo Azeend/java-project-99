@@ -6,9 +6,9 @@ import hexlet.code.mapper.TaskMapper;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
-import hexlet.code.repository.TaskStatusesRepository;
-import hexlet.code.repository.TasksRepository;
-import hexlet.code.repository.UsersRepository;
+import hexlet.code.repository.TaskStatusRepository;
+import hexlet.code.repository.TaskRepository;
+import hexlet.code.repository.UserRepository;
 import hexlet.code.util.ModelsGenerator;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,11 +36,11 @@ public class TaskControllerTests {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private UsersRepository usersRepository;
+    private UserRepository userRepository;
     @Autowired
-    private TasksRepository tasksRepository;
+    private TaskRepository taskRepository;
     @Autowired
-    private TaskStatusesRepository taskStatusesRepository;
+    private TaskStatusRepository taskStatusRepository;
     @Autowired
     private TaskMapper taskMapper;
     @Autowired
@@ -57,17 +57,17 @@ public class TaskControllerTests {
         testUser = Instancio.of(modelsGenerator.getTestUser()).create();
         testStatus = Instancio.of(modelsGenerator.getTestStatus()).create();
         testTask = Instancio.of(modelsGenerator.getTestTask()).create();
-        usersRepository.save(testUser);
-        taskStatusesRepository.save(testStatus);
+        userRepository.save(testUser);
+        taskStatusRepository.save(testStatus);
         testTask.setAssignee(testUser);
         testTask.setStatus(testStatus);
-        tasksRepository.save(testTask);
+        taskRepository.save(testTask);
         token = jwt().jwt(builder -> builder.subject(testUser.getEmail()));
     }
 
     @Test
     public void testIndex() throws Exception {
-        tasksRepository.save(testTask);
+        taskRepository.save(testTask);
         var result = mockMvc.perform(get("/api/tasks").with(token))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -77,7 +77,7 @@ public class TaskControllerTests {
 
     @Test
     public void testShow() throws Exception {
-        tasksRepository.save(testTask);
+        taskRepository.save(testTask);
 
         var request = get("/api/tasks/" + testTask.getId()).with(token);
         var result = mockMvc.perform(request)
@@ -103,7 +103,7 @@ public class TaskControllerTests {
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
 
-        var task = tasksRepository.findById(testTask.getId()).orElse(null);
+        var task = taskRepository.findById(testTask.getId()).orElse(null);
         assertNotNull(task);
         assertThat(task.getIndex()).isEqualTo(testTask.getIndex());
         assertThat(task.getAssignee().getId()).isEqualTo(testTask.getAssignee().getId());
@@ -113,7 +113,7 @@ public class TaskControllerTests {
 
     @Test
     public void testUpdate() throws Exception {
-        tasksRepository.save(testTask);
+        taskRepository.save(testTask);
 
         var data = new TaskUpdateDto();
         data.setTitle(JsonNullable.of("test_title"));
@@ -127,7 +127,7 @@ public class TaskControllerTests {
         mockMvc.perform(request)
                 .andExpect(status().isOk());
 
-        testTask = tasksRepository.findById(testTask.getId()).orElse(null);
+        testTask = taskRepository.findById(testTask.getId()).orElse(null);
         assertNotNull(testTask);
         assertThat(testTask.getDescription()).isEqualTo(data.getDescription().get());
         assertThat(testTask.getName()).isEqualTo(data.getTitle().get());
@@ -135,13 +135,13 @@ public class TaskControllerTests {
 
     @Test
     public void testDestroy() throws Exception {
-        tasksRepository.save(testTask);
+        taskRepository.save(testTask);
 
         var request = delete("/api/tasks/" + testTask.getId()).with(token);
 
         mockMvc.perform(request)
                 .andExpect(status().isNoContent());
 
-        assertThat(tasksRepository.existsById(testTask.getId())).isEqualTo(false);
+        assertThat(taskRepository.existsById(testTask.getId())).isEqualTo(false);
     }
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.TaskStatusUpdateDto;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.model.TaskStatus;
-import hexlet.code.repository.TaskStatusesRepository;
+import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.util.ModelsGenerator;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,7 @@ public class TaskStatusesControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private TaskStatusesRepository taskStatusesRepository;
+    private TaskStatusRepository taskStatusRepository;
     @Autowired
     private TaskStatusMapper taskStatusMapper;
     @Autowired
@@ -52,7 +52,7 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testIndex() throws Exception {
-        taskStatusesRepository.save(testStatus);
+        taskStatusRepository.save(testStatus);
         var result = mockMvc.perform(get("/api/task_statuses").with(token))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -62,7 +62,7 @@ public class TaskStatusesControllerTest {
 
     @Test
     public void testShow() throws Exception {
-        taskStatusesRepository.save(testStatus);
+        taskStatusRepository.save(testStatus);
 
         var request = get("/api/task_statuses/" + testStatus.getId()).with(token);
         var result = mockMvc.perform(request)
@@ -85,14 +85,14 @@ public class TaskStatusesControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
 
-        var taskStatus = taskStatusesRepository.findBySlug(testStatus.getSlug()).get();
+        var taskStatus = taskStatusRepository.findBySlug(testStatus.getSlug()).get();
         assertNotNull(taskStatus);
         assertThat(taskStatus.getName()).isEqualTo(testStatus.getName());
     }
 
     @Test
     public void testUpdate() throws Exception {
-        taskStatusesRepository.save(testStatus);
+        taskStatusRepository.save(testStatus);
 
         var data = new TaskStatusUpdateDto();
         data.setName(JsonNullable.of("test_name"));
@@ -105,19 +105,19 @@ public class TaskStatusesControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isOk());
 
-        testStatus = taskStatusesRepository.findById(testStatus.getId()).get();
+        testStatus = taskStatusRepository.findById(testStatus.getId()).get();
         assertThat(testStatus.getName()).isEqualTo(data.getName().get());
     }
 
     @Test
     public void testDestroy() throws Exception {
-        taskStatusesRepository.save(testStatus);
+        taskStatusRepository.save(testStatus);
 
         var request = delete("/api/task_statuses/" + testStatus.getId()).with(token);
 
         mockMvc.perform(request)
                 .andExpect(status().isNoContent());
 
-        assertThat(taskStatusesRepository.existsById(testStatus.getId())).isEqualTo(false);
+        assertThat(taskStatusRepository.existsById(testStatus.getId())).isEqualTo(false);
     }
 }

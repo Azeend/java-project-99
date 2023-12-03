@@ -1,7 +1,7 @@
 package hexlet.code.util;
 
 import hexlet.code.model.User;
-import hexlet.code.repository.UsersRepository;
+import hexlet.code.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserUtils {
     @Autowired
-    private UsersRepository usersRepository;
+    private UserRepository userRepository;
 
     public User getCurrentUser() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -17,6 +17,6 @@ public class UserUtils {
             return null;
         }
         var email = authentication.getName();
-        return usersRepository.findByEmail(email).get();
+        return userRepository.findByEmail(email).get();
     }
 }

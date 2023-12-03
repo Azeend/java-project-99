@@ -4,7 +4,7 @@ import hexlet.code.dto.UserCreateDto;
 import hexlet.code.model.Label;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.LabelRepository;
-import hexlet.code.repository.TaskStatusesRepository;
+import hexlet.code.repository.TaskStatusRepository;
 
 import hexlet.code.service.UserService;
 import io.sentry.Sentry;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class DataInitializer implements ApplicationRunner {
     private final UserService userService;
-    private final TaskStatusesRepository taskStatusesRepository;
+    private final TaskStatusRepository taskStatusRepository;
     private final LabelRepository labelRepository;
 
     @Override
@@ -51,7 +51,7 @@ public class DataInitializer implements ApplicationRunner {
         var status = new TaskStatus();
         status.setName(name);
         status.setSlug(slug);
-        taskStatusesRepository.save(status);
+        taskStatusRepository.save(status);
     }
 
     private void makeDefaultLabel(String name) {

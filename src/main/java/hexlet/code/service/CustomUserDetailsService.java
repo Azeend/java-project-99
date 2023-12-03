@@ -1,6 +1,6 @@
 package hexlet.code.service;
 
-import hexlet.code.repository.UsersRepository;
+import hexlet.code.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsManager {
-    private final UsersRepository usersRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var user = usersRepository.findByEmail(email)
+        var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         return user;

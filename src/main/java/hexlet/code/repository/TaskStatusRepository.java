@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface TaskStatusesRepository extends JpaRepository<TaskStatus, Long> {
+public interface TaskStatusRepository extends JpaRepository<TaskStatus, Long> {
     Optional<TaskStatus> findBySlug(String slug);
     Optional<TaskStatus> findByName(String name);
 }
