@@ -40,7 +40,6 @@ public class Task {
     @ManyToOne
     private TaskStatus taskStatus;
 
-    @NotNull
     @ManyToOne
     private User assignee;
 
