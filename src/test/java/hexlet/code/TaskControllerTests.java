@@ -47,7 +47,6 @@ public class TaskControllerTests {
     private ObjectMapper objectMapper;
     @Autowired
     private ModelsGenerator modelsGenerator;
-    private TaskStatus testStatus;
     private JwtRequestPostProcessor token;
     private User testUser;
     private Task testTask;
@@ -55,7 +54,7 @@ public class TaskControllerTests {
     @BeforeEach
     public void setUp() {
         testUser = Instancio.of(modelsGenerator.getTestUser()).create();
-        testStatus = Instancio.of(modelsGenerator.getTestStatus()).create();
+        TaskStatus testStatus = Instancio.of(modelsGenerator.getTestStatus()).create();
         testTask = Instancio.of(modelsGenerator.getTestTask()).create();
         userRepository.save(testUser);
         taskStatusRepository.save(testStatus);
