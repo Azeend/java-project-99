@@ -20,10 +20,10 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public abstract class TaskMapper {
 
     @Mapping(target = "assignee.id", source = "assignee_id")
-    @Mapping(target = "status.slug", source = "status")
+    @Mapping(target = "status.slug", source = "taskStatus")
     @Mapping(target = "name", source = "title")
     public abstract Task map(TaskCreateDto dto);
-    @Mapping(target = "status", source = "status.slug")
+    @Mapping(target = "taskStatus", source = "status.slug")
     @Mapping(target = "assignee_id", source = "assignee.id")
     @Mapping(target = "title", source = "name")
     @Mapping(target = "content", source = "description")
@@ -33,7 +33,7 @@ public abstract class TaskMapper {
     @Mapping(target = "assignee.id", source = "assignee_id")
     public abstract void update(TaskUpdateDto dto, @MappingTarget Task model);
 
-    @Mapping(target = "status", source = "status.slug")
+    @Mapping(target = "taskStatus", source = "status.slug")
     @Mapping(target = "assignee_id", source = "assignee.id")
     @Mapping(target = "title", source = "name")
     @Mapping(target = "content", source = "description")

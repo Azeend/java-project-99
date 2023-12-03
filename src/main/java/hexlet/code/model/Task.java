@@ -38,7 +38,7 @@ public class Task {
 
     @NotNull
     @ManyToOne
-    private TaskStatus status;
+    private TaskStatus taskStatus;
 
     @NotNull
     @ManyToOne

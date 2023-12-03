@@ -59,7 +59,7 @@ public class TaskControllerTests {
         userRepository.save(testUser);
         taskStatusRepository.save(testStatus);
         testTask.setAssignee(testUser);
-        testTask.setStatus(testStatus);
+        testTask.setTaskStatus(testStatus);
         taskRepository.save(testTask);
         token = jwt().jwt(builder -> builder.subject(testUser.getEmail()));
     }
@@ -88,7 +88,7 @@ public class TaskControllerTests {
                 v -> v.node("assignee_id").isEqualTo(testTask.getAssignee().getId()),
                 v -> v.node("title").isEqualTo(testTask.getName()),
                 v -> v.node("content").isEqualTo(testTask.getDescription()),
-                v -> v.node("status").isEqualTo(testTask.getStatus().getSlug()));
+                v -> v.node("status").isEqualTo(testTask.getTaskStatus().getSlug()));
     }
 
     @Test
@@ -106,7 +106,7 @@ public class TaskControllerTests {
         assertNotNull(task);
         assertThat(task.getIndex()).isEqualTo(testTask.getIndex());
         assertThat(task.getAssignee().getId()).isEqualTo(testTask.getAssignee().getId());
-        assertThat(task.getStatus().getSlug()).isEqualTo(testTask.getStatus().getSlug());
+        assertThat(task.getTaskStatus().getSlug()).isEqualTo(testTask.getTaskStatus().getSlug());
         assertThat(task.getName()).isEqualTo(testTask.getName());
     }
 
