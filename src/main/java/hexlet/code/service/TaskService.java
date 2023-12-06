@@ -45,10 +45,10 @@ public class TaskService {
         var taskStatusSlug = dto.getStatus();
         var taskStatus = taskStatusRepository.findBySlug(taskStatusSlug)
                 .orElseThrow(() -> new ResourceNotFoundException("not found"));
+        taskStatus.setSlug(taskStatusSlug);
         task.setTaskStatus(taskStatus);
         taskRepository.save(task);
         var result = taskMapper.map(task);
-        result.setStatus(JsonNullable.of(taskStatus.getSlug()));
         return result;
     }
 
