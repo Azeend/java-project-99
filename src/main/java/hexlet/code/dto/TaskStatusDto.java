@@ -2,6 +2,7 @@ package hexlet.code.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import java.time.LocalDate;
 
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 @Setter
 public class TaskStatusDto {
     private Long id;
-    private String name;
-    private String slug;
+    private JsonNullable<String> name;
+    private JsonNullable<String> slug;
     private LocalDate createdAt;
 }
