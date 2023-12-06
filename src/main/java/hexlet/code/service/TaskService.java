@@ -10,7 +10,6 @@ import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.specification.TaskSpecification;
 import lombok.AllArgsConstructor;
-import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
