@@ -31,7 +31,6 @@ public abstract class TaskMapper {
 
     @Mapping(source = "title", target = "name")
     @Mapping(source = "status", target = "taskStatus")
-    @Mapping(source = "assignee_id", target = "assignee")
     public abstract Task map(TaskCreateDto dto);
     @Mapping(source = "name", target = "title")
     @Mapping(source = "description", target = "content")
@@ -53,10 +52,6 @@ public abstract class TaskMapper {
     public TaskStatus toTaskStatus(String statusSlug) {
         return statusRepository.findBySlug(statusSlug)
                 .orElseThrow(() -> new ResourceNotFoundException("TaskStatus with slug " + statusSlug + " not found"));
-    }
-    public User toUser(Long assigneeId) {
-        return userRepository.findById(assigneeId)
-                .orElseThrow();
     }
 }
 
