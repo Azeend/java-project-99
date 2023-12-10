@@ -6,9 +6,7 @@ import hexlet.code.dto.TaskUpdateDto;
 import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
-import hexlet.code.model.User;
 import hexlet.code.repository.TaskStatusRepository;
-import hexlet.code.repository.UserRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -26,8 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class TaskMapper {
     @Autowired
     private TaskStatusRepository statusRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     @Mapping(source = "title", target = "name")
     @Mapping(source = "status", target = "taskStatus")
