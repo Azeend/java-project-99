@@ -39,10 +39,10 @@ public abstract class TaskMapper {
     @Mapping(source = "assignee_id", target = "assignee")
     public abstract void update(TaskUpdateDto dto, @MappingTarget Task model);
 
-    @Mapping(target = "status", source = "taskStatus.slug")
-    @Mapping(target = "assignee_id", source = "assignee.id")
-    @Mapping(target = "title", source = "name")
-    @Mapping(target = "content", source = "description")
+    @Mapping(source = "taskStatus.slug", target = "status")
+    @Mapping(source = "assignee.id", target = "assignee_id")
+    @Mapping(source = "name", target = "title")
+    @Mapping(source = "description", target = "content")
     public abstract TaskCreateDto mapToCreateDto(Task model);
 
     public TaskStatus toTaskStatus(String statusSlug) {
