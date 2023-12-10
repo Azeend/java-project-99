@@ -1,14 +1,14 @@
 package hexlet.code.model;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.CascadeType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -25,7 +25,7 @@ import java.util.Set;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "tasks")
-public class Task {
+public class Task implements BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -36,13 +36,12 @@ public class Task {
 
     private int index;
     private String description;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private User assignee;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private TaskStatus taskStatus;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User assignee;
 
     @CreatedDate
     private LocalDate createdAt;

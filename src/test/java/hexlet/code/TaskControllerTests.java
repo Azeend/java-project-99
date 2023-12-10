@@ -50,17 +50,21 @@ public class TaskControllerTests {
     private JwtRequestPostProcessor token;
     private User testUser;
     private Task testTask;
+    private TaskStatus testStatus;
 
     @BeforeEach
     public void setUp() {
         testUser = Instancio.of(modelsGenerator.getTestUser()).create();
-        TaskStatus testStatus = Instancio.of(modelsGenerator.getTestStatus()).create();
-        testTask = Instancio.of(modelsGenerator.getTestTask()).create();
         userRepository.save(testUser);
+
+        testStatus = Instancio.of(modelsGenerator.getTestStatus()).create();
         taskStatusRepository.save(testStatus);
-        testTask.setAssignee(testUser);
+
+        testTask = Instancio.of(modelsGenerator.getTestTask()).create();
         testTask.setTaskStatus(testStatus);
+        testTask.setAssignee(testUser);
         taskRepository.save(testTask);
+
         token = jwt().jwt(builder -> builder.subject(testUser.getEmail()));
     }
 
@@ -93,7 +97,10 @@ public class TaskControllerTests {
 
     @Test
     public void testCreate() throws Exception {
-        var dto = taskMapper.mapToCreateDto(testTask);
+        var newTask = Instancio.of(modelsGenerator.getTestTask()).create();
+        newTask.setTaskStatus(testStatus);
+        newTask.setAssignee(testUser);
+        var dto = taskMapper.mapToCreateDto(newTask);
 
         var request = post("/api/tasks").with(token)
                 .contentType(MediaType.APPLICATION_JSON)

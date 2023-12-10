@@ -25,7 +25,7 @@ import java.util.List;
 @Setter
 @Table(name = "tasks_statuses")
 @EntityListeners(AuditingEntityListener.class)
-public class TaskStatus {
+public class TaskStatus implements BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

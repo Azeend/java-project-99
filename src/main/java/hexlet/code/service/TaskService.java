@@ -8,6 +8,7 @@ import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.TaskMapper;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.TaskRepository;
+import hexlet.code.repository.UserRepository;
 import hexlet.code.specification.TaskSpecification;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class TaskService {
     private final TaskMapper taskMapper;
     private final TaskSpecification taskSpecification;
     private final TaskStatusRepository taskStatusRepository;
+    private final UserRepository userRepository;
 
     public List<TaskDto> getAll(TaskParamsDto params) {
         var specification = taskSpecification.build(params);
