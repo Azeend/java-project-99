@@ -15,7 +15,7 @@ public class AppConfig {
         return new Faker();
     }
     @Bean
-    public ServletWebServerFactory servletWebServerFactory(){
+    public ServletWebServerFactory servletWebServerFactory() {
         return new TomcatServletWebServerFactory();
     }
 
