@@ -5,6 +5,8 @@ logging:
       springframework:
         security: DEBUG
 spring:
+  main:
+    web-application-type: none
   jpa:
     show-sql: true
     hibernate:
