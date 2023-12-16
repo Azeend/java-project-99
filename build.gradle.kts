@@ -33,29 +33,32 @@ sentry {
 }
 
 dependencies {
-	runtimeOnly("com.h2database:h2:2.1.214")
-	runtimeOnly("org.postgresql:postgresql:42.6.0")
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
+	implementation("org.instancio:instancio-junit:3.3.0")
+	implementation("org.apache.commons:commons-lang3:3.13.0")
+	implementation("org.apache.commons:commons-text:1.9")
+	implementation("net.datafaker:datafaker:2.0.1")
+
+	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+	annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta")
+	annotationProcessor("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
 	implementation("org.mapstruct:mapstruct:1.5.5.Final")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
-	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
-	implementation("org.springframework.boot:spring-boot-starter-validation:3.0.4")
-	implementation("org.springframework.boot:spring-boot-devtools:3.0.4")
-	implementation("org.springframework.boot:spring-boot-starter-web:3.1.0")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.0.4")
-	implementation("net.datafaker:datafaker:2.0.1")
-	implementation("org.instancio:instancio-junit:3.3.0")
-	implementation("org.springframework.boot:spring-boot-starter-security:3.0.4")
-	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.1.0")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-	implementation ("io.swagger.core.v3:swagger-annotations:2.2.10")
 
-	testImplementation(platform("org.junit:junit-bom:5.10.0"))
-	testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-	testImplementation("net.javacrumbs.json-unit:json-unit-assertj:3.2.2")
-	testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.0")
-	testImplementation("org.springframework.security:spring-security-test:6.0.2")
+	testImplementation("org.springframework.security:spring-security-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 
+	runtimeOnly("com.h2database:h2")
+	runtimeOnly("org.postgresql:postgresql:42.6.0")
 }
 
 checkstyle {
