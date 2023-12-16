@@ -5,10 +5,10 @@ report:
 	./gradlew jacocoTestReport
 
 start:
-    ./gradlew bootRun --args='--spring.profiles.active=development'
+	./gradlew bootRun --args='--spring.profiles.active=development'
 
 start-prod:
-    ./gradlew bootRun --args='--spring.profiles.active=production'
+	./gradlew bootRun --args='--spring.profiles.active=production'
 
 install-dist:
 	./gradlew clean installDist
