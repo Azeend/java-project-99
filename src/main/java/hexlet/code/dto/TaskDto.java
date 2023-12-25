@@ -3,9 +3,8 @@ package hexlet.code.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.Set;
-
+import java.time.LocalDate;
 @Getter
 @Setter
 public class TaskDto {
@@ -15,6 +14,6 @@ public class TaskDto {
     private String content;
     private String status;
     private Long assignee_id;
-    private List<Long> taskLabelIds;
-    private Date createdAt;
+    private Set<Long> taskLabelIds;
+    private LocalDate createdAt;
 }
