@@ -30,7 +30,7 @@ public class UserService {
     public UserDto create(UserCreateDto dto) {
         var user = userMapper.map(dto);
         String hashedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPasswordDigest(hashedPassword);
+        user.setPassword(hashedPassword);
         userRepository.save(user);
         return userMapper.map(user);
     }
@@ -47,7 +47,7 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
         userMapper.update(dto, user);
         if (dto.getPasswordDigest() != null) {
-            user.setPasswordDigest(passwordEncoder.encode(dto.getPasswordDigest().get()));
+            user.setPassword(passwordEncoder.encode(dto.getPasswordDigest().get()));
         }
         userRepository.save(user);
         var userDto = userMapper.map(user);

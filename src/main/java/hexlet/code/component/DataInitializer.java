@@ -29,7 +29,7 @@ public class DataInitializer implements ApplicationRunner {
         var email = "hexlet@example.com";
         var userData = new User();
         userData.setEmail(email);
-        userData.setPasswordDigest(encoder.encode("qwerty"));
+        userData.setPassword(encoder.encode("qwerty"));
         userRepository.save(userData);
 
 

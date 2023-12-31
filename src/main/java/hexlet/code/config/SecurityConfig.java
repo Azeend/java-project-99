@@ -18,6 +18,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import static org.springframework.http.HttpMethod.POST;
+
 
 @Configuration
 @EnableWebSecurity
@@ -49,6 +51,7 @@ public class SecurityConfig {
                         .requestMatchers(mvcMatcherBuilder.pattern("/welcome")).permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern("/index.html")).permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern("/assets/**")).permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern(POST, "/api/users")).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer((rs) -> rs.jwt((jwt) -> jwt.decoder(jwtDecoder)))
