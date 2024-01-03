@@ -3,9 +3,11 @@ package hexlet.code;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.TaskUpdateDto;
 import hexlet.code.mapper.TaskMapper;
+import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
+import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.UserRepository;
@@ -19,6 +21,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Set;
+
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -44,6 +49,8 @@ public class TaskControllerTests {
     @Autowired
     private TaskMapper taskMapper;
     @Autowired
+    private LabelRepository labelRepository;
+    @Autowired
     private ObjectMapper objectMapper;
     @Autowired
     private ModelsGenerator modelsGenerator;
@@ -51,6 +58,7 @@ public class TaskControllerTests {
     private User testUser;
     private Task testTask;
     private TaskStatus testStatus;
+    private Label testLabel;
 
     @BeforeEach
     public void setUp() {
@@ -59,6 +67,9 @@ public class TaskControllerTests {
 
         testStatus = Instancio.of(modelsGenerator.getTestStatus()).create();
         taskStatusRepository.save(testStatus);
+        testLabel = Instancio.of(modelsGenerator.getTestLabel())
+                .create();
+        labelRepository.save(testLabel);
 
         testTask = Instancio.of(modelsGenerator.getTestTask()).create();
         testTask.setTaskStatus(testStatus);
@@ -100,6 +111,7 @@ public class TaskControllerTests {
         var newTask = Instancio.of(modelsGenerator.getTestTask()).create();
         newTask.setTaskStatus(testStatus);
         newTask.setAssignee(testUser);
+        newTask.setLabels(Set.of(testLabel));
         var dto = taskMapper.mapToCreateDto(newTask);
 
         var request = post("/api/tasks").with(token)
